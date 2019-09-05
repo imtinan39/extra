@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+    int roll;
+    node *next;
+
+};
+
+node *root=NULL;
+
+void append(int roll)
+{
+    if(root==NULL)
+    {
+        root=new node();
+        root->roll=roll;
+        root->next=NULL;
+    }
+    else
+    {
+        node *current_node=root;
+        while(current_node->next!=NULL)
+        {
+            current_node=current_node->next;
+        }
+        node *newnode;
+        newnode=new node();
+        newnode->roll=roll;
+        newnode->next=NULL;
+        current_node->next=newnode;
+
+    }
+}
+void print()
+{
+    if(root->next==NULL)
+    {
+        cout<<root->roll;
+    }
+    else
+    {
+        node *current_node=root;
+        while(current_node!=NULL)
+        {
+            cout<<current_node->roll<<endl;
+            current_node=current_node->next;
+        }
+    }
+}
+
+void delete_node(int roll)
+{
+    node *current_node=root;
+    node *previous_node=NULL;
+    while(current_node->roll!=roll)
+    {
+        previous_node=current_node;
+        current_node=current_node->next;
+    }
+    if(current_node==root)
+    {
+        node *temp=root;
+        root=root->next;
+        delete(temp);
+    }
+    else{
+        previous_node->next=current_node->next;
+        delete(current_node);
+    }
+}
+int main()
+{
+    int n,k;
+    cin>>n;
+    for(int i=0;i<n;i++)
+    {
+        cin>>k;
+        append(k);
+    }
+    print();
+    delete_node(2);
+    cout<<"edit"<<endl;
+    print();
+
+
+}
