@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    vector<int>edges[1000];
+    queue<int>qu;
+    int n,e,x,y,cnt=0;
+    cin>>n>>e;
+    int visited[n];
+    int indegree[n];
+    memset(visited,0,sizeof(visited));
+    memset(indegree,0,sizeof(indegree));
+    for(int i=0;i<e;i++)
+    {
+        cin>>x>>y;
+        edges[x].push_back(y);
+       //edges[y].push_back(x);
+        indegree[y]=indegree[y]+1;
+        //indegree[x]=indegree[x]+1;
+    }
+    for(int i =0;i<n;i++)
+    {
+        if(indegree[i]==0)
+        {
+            qu.push(i);
+        }
+    }
+    while(!qu.empty())
+    {
+        int first=qu.front();
+        visited[first]==1;
+        cnt=cnt+1;
+        qu.pop();
+        for(int i=first,j=0;j<edges[i].size();j++)
+        {
+            indegree[edges[i][j]]=indegree[edges[i][j]]-1;
+            if(indegree[edges[i][j]]==0)
+            {
+                qu.push(edges[i][j]);
+            }
+        }
+    }
+    if(cnt!=n)
+    {
+        cout<<"graph has cycle";
+    }
+    else
+    {
+        cout<<"no cycle";
+    }
+
+
+}
