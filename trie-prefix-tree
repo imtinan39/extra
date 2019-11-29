@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct node
+{
+    bool endmark;
+    node *next[26+1];
+    node()
+    {
+        endmark=false;
+        for(int i=0;i<26;i++)
+        {
+            next[i]=NULL;
+        }
+    }
+} *root;
+
+void inser(string str,int len)
+{
+    node *curr=root;
+    for(int i=0;i<len;i++)
+    {
+        int id=str[i]-'a';
+        if(curr->next[id]==NULL)
+        {
+            curr->next[id]=new node();
+            curr=curr->next[id];
+        }
+        else
+        {
+            curr=curr->next[id];
+        }
+
+
+    }
+    curr->endmark=true;
+}
+bool sear(string str,int len)
+{
+    node *curr=root;
+    for(int i=0;i<len;i++)
+    {
+        int id=str[i]-'a';
+        if(curr->next[id]==NULL)
+        {
+            return false;
+        }
+        else{curr=curr->next[id];}
+    }
+    return curr->endmark;
+}
+void del(node *curr)
+{
+    for(int i=0;i<26;i++)
+    {
+        if(curr->next[i])
+        {
+            del(curr->next[i]);
+        }
+    }
+    delete(curr);
+}
+
+int main()
+{
+    cout<<"enter number of words";
+    root=new node();
+    int word;
+    cin>>word;
+    for(int i=1;i<=word;i++)
+    {
+        string s;
+        cin>>s;
+        inser(s,s.size());
+    }
+    cout<<"number of query";
+    int query;
+    cin>>query;
+    for(int i=1;i<=query;i++)
+    {
+         string s1;
+        cin>>s1;
+
+        if(sear(s1,s1.size())==true)
+        {
+            cout<<"found"<<endl;
+        }
+        else
+        {
+            cout<<"not found"<<endl;
+        }
+    }
+    del(root);
+    return 0;
+}
